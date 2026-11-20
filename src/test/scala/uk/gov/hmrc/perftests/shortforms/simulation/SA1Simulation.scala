@@ -26,9 +26,10 @@ class SA1Simulation extends Simulation with PerformanceTestRunner {
     .withRequests(
       getAuthPage,
       postAuthPage,
-      getSA1StartPage,
+      getStartPage,
+      clickStart,
       getFirstAndLastNamePage,
-      postFirstAndLastNamePage("John", "Doe"),
+//      postFirstAndLastNamePage("John", "Doe"),
 //      getAddPreviousLastNamePage,
 //      postAddPreviousLastNamePage("false"),
 //      getDateOfBirthPage,

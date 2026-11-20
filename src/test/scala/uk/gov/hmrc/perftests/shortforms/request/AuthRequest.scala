@@ -72,71 +72,50 @@ object AuthRequest extends ShortformsPerformanceTestBase {
     )
   }
 
-  val getSA1StartPage: HttpRequestBuilder =
+  val getStartPage: HttpRequestBuilder =
     http("[GET] SA1 Start Page")
       .get(shortformsSA1StartUrl + "/start")
+      .check(currentLocation.transform(url => { println("GET URL = " + url); url }))
+      // your existing form parameters here
       .check(status.is(200))
-      .check(
-        css("a.govuk-button--start", "href")
-          .transform(_.split("/").last)
-          .saveAs("journeyId")
-      )
+
+  val clickStart: HttpRequestBuilder =
+    http("[GET] Click Start")
+      .get(shortformsSA1StartUrl + "/name")
+      .check(currentLocation.transform(url => { println("GET URL = " + url); url }))
+      .check(status.is(200))
+      .check(currentLocation.saveAs("dynamicUrl"))
 
   val getFirstAndLastNamePage: HttpRequestBuilder =
     http("[GET] What Is Your Name Page")
-      .get(shortformsSA1StartUrl + "/name/#{journeyId}")
+      .get(shortformsSA1StartUrl + "/name/#{dynamicUrl}")
+      .check(currentLocation.transform(url => { println("ACTUAL URL = " + url); url }))
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
+      .check(
+        currentLocationRegex(""".*/name(/[^/?]+).*""")
+          .saveAs("dynamicSuffix")
+      )
 
   def postFirstAndLastNamePage(first: String, last: String): HttpRequestBuilder =
-    http("[POST] What Is Your Name Page")
-      .post(shortformsSA1StartUrl + "/name/#{journeyId}")
+    http("[post] What Is Your Name Page")
+      .get(shortformsSA1StartUrl + "/name")
+      .check(currentLocation.transform(url => { println("ACTUAL URL = " + url); url }))
       .formParam("firstName", first)
       .formParam("lastName", last)
       .formParam("csrfToken", "#{csrfToken}")
       .check(status.is(303))
 
-  val getPreviousLastNamePage: HttpRequestBuilder =
-    http("[GET] Previous Last Name Page")
-      .get(shortformsSA1StartUrl + "/previous-last-name/#{journeyId}")
-      .check(status.is(200))
-      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
-
-//  val getSA1StartPage: HttpRequestBuilder =
-//    http("[GET] SA1 Start Page")
-//      .get(shortformsSA1StartUrl + "/start")
-//      // your existing form parameters here
-//      .check(status.is(200))
-//      .check(
-//        headerRegex("Location", """.*/name/([0-9a-fA-F-]{36}).*""").saveAs("journeyId")
-//      )
-//
-//  val getFirstAndLastNamePage: HttpRequestBuilder =
-//    http("[GET] What Is Your Name Page")
-//      .get(shortformsSA1StartUrl + "/name/#{journeyId}")
-//      .check(currentLocation.transform(url => { println("ACTUAL URL = " + url); url }))
-//      .check(status.is(200))
-//      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
-//
-//  def postFirstAndLastNamePage(first: String, last: String): HttpRequestBuilder =
-//    http("[post] What Is Your Name Page")
-//      .get(shortformsSA1StartUrl + "/name/#{journeyId}")
-//      .check(currentLocation.transform(url => { println("ACTUAL URL = " + url); url }))
-//      .formParam("firstName", first)
-//      .formParam("lastName", last)
-//      .formParam("csrfToken", "#{csrfToken}")
-//      .check(status.is(303))
-
   val getAddPreviousLastNamePage: HttpRequestBuilder =
     http("[GET] Do You Have A Previous Last Name Page")
-      .get(shortformsSA1StartUrl + "/previous-last-name/#{journeyId}")
+      .get(shortformsSA1StartUrl + "/previous-last-name/#{dynamicSuffix}")
       .check(currentLocation.transform(url => { println("ACTUAL URL = " + url); url }))
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   def postAddPreviousLastNamePage(option: String): HttpRequestBuilder =
     http("[post] Do You Want To Add The Individual's Address Page")
-      .get(shortformsSA1StartUrl + "/previous-last-name/#{journeyId}")
+      .get(shortformsSA1StartUrl + "/previous-last-name/#{dynamicSuffix}")
       .formParam("value", option)
       .formParam("csrfToken", "#{csrfToken}")
       .check(status.is(303))
