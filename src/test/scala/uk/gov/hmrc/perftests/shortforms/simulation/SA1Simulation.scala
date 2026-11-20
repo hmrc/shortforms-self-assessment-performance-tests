@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.perftests.shortforms.simulations
+package uk.gov.hmrc.perftests.shortforms.simulation
 
 import io.gatling.core.scenario.Simulation
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
@@ -26,7 +26,82 @@ class SA1Simulation extends Simulation with PerformanceTestRunner {
     .withRequests(
       getAuthPage,
       postAuthPage,
-      getSA1StartPage
+      getSA1StartPage,
+      getFirstAndLastNamePage,
+      postFirstAndLastNamePage("John", "Doe"),
+//      getAddPreviousLastNamePage,
+//      postAddPreviousLastNamePage("false"),
+//      getDateOfBirthPage,
+//      postDateOfBirthPage,
+//      getContactDetailsPage,
+//      postContactDetailsPage("user.test@digital.hmrc.co.uk", "+44123123123"),
+//      getAddressLookupCountryPicker,
+//      postAddressLookupCountryPicker("Ireland"),
+//      getManuallyEnterAddressPage,
+//      postManuallyEnterAddressPage(
+//        "25 Oakley Road",
+//        "Flat 69",
+//        "",
+//        "City of Test",
+//        "SW22 42F",
+//        "IE"
+//      ),
+//      getReviewAddress,
+//      getAddressDateMovedPage,
+//      postAddressDateMovedPage,
+//      getAddNinoPage,
+//      postAddNinoPage("false"),
+//      getNoNinoReasonPage,
+//      postNoNinoReasonPage("Reason"),
+//      getTaxReturnReasonsPage,
+//      postTaxReturnPage(),
+//      getOtherTaxReasonPage,
+//      postOtherTaxReasonPage("Reason"),
+//      postOtherTaxReasonDatePage,
+//      getCheckAnswersPage,
+//      getChangeFirstName,
+//      postChangeFirstName("John Updated"),
+//      getChangeLastName,
+//      postChangeLastName("Doe Updated"),
+//      getCheckAnswersPage,
+//      getChangeAddPreviousLastName,
+//      postChangeAddPreviousLastName("true"),
+//      getChangePreviousLastName,
+//      postChangePreviousLastName("Previous Last Name"),
+//      getCheckAnswersPage,
+//      getChangeDateOfBirth,
+//      postChangeDateOfBirth(""),
+//      getCheckAnswersPage,
+//      getChangeEmailAddress,
+//      postChangeEmailAddress("updated.email@digital.hmrc.co.uk")
+//        getCheckAnswersPage,
+//      getChangePhoneNumber,
+//      postChangePhoneNumber("+44 2333 32222")
+//        getCheckAnswersPage,
+//      getChangeAddNino,
+//      postChangeAddNino("true"),
+//      getNationalInsturanceNumberPage,
+//      postNationalInsturanceNumberPage("NM772208B"),
+//      getCheckAnswersPage,
+//      getChangeTaxReturnReasonsPage,
+//      postChangeTaxReturnReasonsPage("select all"),
+//      getDateUntaxedIncomeDirectorPage,
+//      postDateUntaxedIncomeDirectorPage(),
+//      getDateLandPropertyPage,
+//      postDateLandProperty(),
+//      getDateTaxableForeignIncomePage,
+//      postDateTaxableForeignIncomePage(),
+//      getDateTrustSettlementPage,
+//      postDateTrustSettlementPage(),
+//      getDateAnnualIncomePage,
+//      postDateAnnualIncomePage(),
+//      getDateUntaxedIncomePayePage,
+//      postDateUntaxedIncomePayePage(),
+//      getDateHighIncomeChildBenefitPage,
+//      postDateHighIncomeChildBenefit(),
+//      getDateCapitalGainsTaxPage,
+//      postDateCapitalGainsTaxPage()
+//      getCheckAnswersPage
     )
 
   runSimulation()

@@ -27,5 +27,7 @@ trait ShortformsPerformanceTestBase extends ServicesConfiguration {
     baseUrlFor("self-assessment-forms")
 
   val shortformsSA1StartUrl: String =
-    shortformsHost + "/self-assessment-forms/sa1/start"
+    shortformsHost + s"/self-assessment-forms/sa1/"
+
+  val addressLookupHost: String = baseUrlFor("lookup-address")
 }
